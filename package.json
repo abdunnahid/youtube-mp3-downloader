@@ -1,5 +1,5 @@
 {
-  "name": "youtube-mp3-downloader",
+  "name": "youtube-mp3-download",
   "version": "0.0.1",
   "author": {
     "name": "Abdnun Nahid",
@@ -86,5 +86,10 @@
   },
   "engines": {
     "node": ">=10.13.0"
+  },
+  "dependencies": {
+    "@types/ffmpeg-static": "3.0.0",
+    "ffmpeg-static": "4.0.1",
+    "youtube-mp3-downloader": "0.6.5"
   }
 }

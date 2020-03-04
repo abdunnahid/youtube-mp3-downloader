@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DownloadService } from '../core/services/download.service';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _downloader: DownloadService
+  ) { }
 
   ngOnInit(): void { }
+
+  downlaod(): void {
+    this._downloader.download();
+  }
 
 }
