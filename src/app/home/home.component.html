@@ -1,1 +1,9 @@
-<button (click)="downlaod()">download</button>
+<div class="path-to-save">
+  <p>{{userSettings?.pathToSave}}</p>
+  <button (click)="chooseFileLocation()">Choose File Location</button>
+</div>
+
+<div class="url-input">
+  <input type="url" #urlInput>
+  <button (click)="downlaod(urlInput.value)">download</button>
+</div>

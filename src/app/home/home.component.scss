@@ -1,1 +1,22 @@
+.path-to-save {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
 
+  p {
+    flex: 1;
+    padding: 0 10px;
+  }
+}
+
+.url-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+
+  input {
+    flex: 1;
+  }
+}
