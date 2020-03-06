@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Youtube Video URL</h1>
+
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>URL</mat-label>
+    <input matInput [formControl]="url">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Path to save</mat-label>
+    <input #directoryInput (focus)="chooseFileLocation()" matInput [formControl]="pathToSave">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-stroked-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="ok()" cdkFocusInitial>Ok</button>
+</div>

@@ -1,0 +1,29 @@
+<div class="download-page">
+  <div class="video-item">
+    <div class="left">
+      <mat-icon mat-list-icon>music_video</mat-icon>
+    </div>
+    <div class="middle">
+      <h4 mat-line>{{video.url}}</h4>
+      <p mat-line> {{video.directory}} </p>
+    </div>
+    <div class="right">
+      <ng-container *ngIf="!downloading">
+        <button (click)="downlaod(video.url, video.directory)" mat-icon-button color="primary"
+          *ngIf="!video.hasDownloaded; else downloadedTemplate">
+          <mat-icon mat-list-icon>cloud_download</mat-icon>
+        </button>
+        <ng-template #downloadedTemplate>
+          <mat-icon mat-list-icon>check_circle_outline</mat-icon>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="downloading">
+        <div>
+          <small-spinner></small-spinner>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+

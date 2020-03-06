@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ElectronService } from './electron/electron.service';
 import * as ffmpegstatic from "ffmpeg-static";
 import * as youtubeMp3Downloader from "youtube-mp3-downloader";
-import { UserSettingsService } from './user-settings.service';
 import { Observable, Observer } from 'rxjs';
 
 @Injectable({
@@ -14,8 +13,7 @@ export class DownloadService {
   private youtubeMp3Downloader: typeof youtubeMp3Downloader;
 
   constructor(
-    private _electron: ElectronService,
-    private _userSettings: UserSettingsService
+    private _electron: ElectronService
   ) {
     if (this._electron.isElectron) {
       this.pathToFfmpeg = window.require('ffmpeg-static');
@@ -23,13 +21,13 @@ export class DownloadService {
     }
   }
 
-  public download(url: string): Observable<any> {
+  public download(url: string, directory: string): Observable<any> {
 
     if (!this._electron.isElectron) {
       return;
     }
 
-    if (!this._userSettings.settings.pathToSave) {
+    if (!directory) {
       throw new Error('Path not specified!');
     }
 
@@ -42,7 +40,7 @@ export class DownloadService {
     //Configure YoutubeMp3Downloader with your settings
     var YD = new this.youtubeMp3Downloader({
       "ffmpegPath": this.pathToFfmpeg,                          // Where is the FFmpeg binary located?
-      "outputPath": this._userSettings.settings.pathToSave,     // Where should the downloaded and encoded files be stored?
+      "outputPath": directory,     // Where should the downloaded and encoded files be stored?
       "youtubeVideoQuality": "highest",                         // What video quality should be used?
       "queueParallelism": 2,                                    // How many parallel downloads/encodes should be started?
       "progressTimeout": 2000                                   // How long should be the interval of the progress reports
