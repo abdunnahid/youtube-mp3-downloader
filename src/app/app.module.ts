@@ -15,6 +15,10 @@ import { HomeModule } from './home/home.module';
 import { AppComponent } from './app.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +32,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     SharedModule,
     HomeModule,
     AppRoutingModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

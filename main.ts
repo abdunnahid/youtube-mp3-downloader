@@ -4,23 +4,26 @@ import * as url from 'url';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
-    serve = args.some(val => val === '--serve');
+  serve = args.some(val => val === '--serve');
 
 function createWindow(): BrowserWindow {
 
-  const electronScreen = screen;
-  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+  const screenSize = screen.getPrimaryDisplay().workAreaSize;
+  const appWidth = serve ? screenSize.width - 200 : 400;
+  const appHeight = serve ? screenSize.height - 200 : 600;
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height,
+    x: (screenSize.width / 2) - (appWidth / 2),
+    y: (screenSize.height / 2) - (appHeight / 2),
+    width: serve ? screenSize.width - 200 : appWidth,
+    height: serve ? screenSize.height - 200 : appHeight,
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
     },
+    icon: path.join(__dirname, 'src/favicon.png'),
+    frame: false
   });
 
   if (serve) {
@@ -28,16 +31,18 @@ function createWindow(): BrowserWindow {
       electron: require(`${__dirname}/node_modules/electron`)
     });
     win.loadURL('http://localhost:5500');
-  } else {
+    win.webContents.openDevTools();
+    win.setAlwaysOnTop(false);
+    win.setMenuBarVisibility(true);
+  }
+  else {
+    win.setAlwaysOnTop(true, 'screen-saver');
+    win.setMenuBarVisibility(false);
     win.loadURL(url.format({
       pathname: path.join(__dirname, 'dist/index.html'),
       protocol: 'file:',
       slashes: true
     }));
-  }
-
-  if (serve) {
-    win.webContents.openDevTools();
   }
 
   // Emitted when the window is closed.
@@ -47,10 +52,8 @@ function createWindow(): BrowserWindow {
     // when you should delete the corresponding element.
     win = null;
   });
-
   return win;
 }
-
 try {
 
   // This method will be called when Electron has finished
