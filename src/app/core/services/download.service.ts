@@ -33,6 +33,12 @@ export class DownloadService {
       throw new Error('Path not specified!');
     }
 
+    const videoCode = this.getVideoCode(url);
+
+    if (!videoCode) {
+      return Observable.throw(false);
+    }
+
     //Configure YoutubeMp3Downloader with your settings
     var YD = new this.youtubeMp3Downloader({
       "ffmpegPath": this.pathToFfmpeg,                          // Where is the FFmpeg binary located?
@@ -43,8 +49,7 @@ export class DownloadService {
     });
 
     //Download video and save as MP3 file
-    // YD.download("4mxXdCUXSSs");
-    YD.download(url);
+    YD.download(videoCode as string);
 
     return Observable.create(
       (observer: Observer<any>) => {
@@ -64,13 +69,13 @@ export class DownloadService {
     )
   }
 
-  private getVideoCode(url) {
+  private getVideoCode(url): string | boolean {
     var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
     if (match && match[2].length == 11) {
       return match[2];
     } else {
-      //error
+      return false;
     }
   }
 }
