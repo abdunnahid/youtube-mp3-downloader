@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DownloadService } from '../core/services/download.service';
 import { FileService } from '../core/services/file.service';
 import { UserSettingsService, UserSettings } from '../core/services/user-settings.service';
+import { ToastService } from '../shared/toast';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private _downloader: DownloadService,
     private _fileService: FileService,
-    private _userSettings: UserSettingsService
+    private _userSettings: UserSettingsService,
+    private _toast: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -33,9 +35,15 @@ export class HomeComponent implements OnInit {
   downlaod(url: string): void {
 
     if (!this.isValidYouTubeUrl(url)) {
-      console.log('Not a valid youtube url!');
+      this._toast.showWarningToast('Not a valid youtube url!', 10000);
       return;
     }
+
+    if (!this._userSettings.settings.pathToSave) {
+      this._toast.showWarningToast('No path to save specified!', 10000);
+      return;
+    }
+
     this._downloader.download(url)
       .subscribe(
         (progress) => {
@@ -50,7 +58,7 @@ export class HomeComponent implements OnInit {
       )
   }
 
-  isValidYouTubeUrl(url: string): boolean {
+  private isValidYouTubeUrl(url: string): boolean {
     var url = url;
     if (url != undefined || url != '') {
       var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
@@ -66,5 +74,5 @@ export class HomeComponent implements OnInit {
       return false;
     }
   }
-  
+
 }
