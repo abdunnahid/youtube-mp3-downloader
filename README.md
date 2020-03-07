@@ -1,9 +1,9 @@
-[![Angular Logo](https://www.vectorlogo.zone/logos/angular/angular-icon.svg)](https://angular.io/) [![Electron Logo](https://www.vectorlogo.zone/logos/electronjs/electronjs-icon.svg)](https://electronjs.org/)
+![youtube-mp3-downloader_logo](https://github.com/abdunnahid/youtube-mp3-downloader/blob/master/src/assets/icons/gh-cover.jpg)
 
 
 # Introduction
 
-Bootstrap and package your project with Angular 9 and Electron 8 (Typescript + SASS + Hot Reload) for creating Desktop applications.
+Desktop application that downloads mp3 from youtube video url.
 
 Currently runs with:
 
@@ -53,7 +53,7 @@ The application code is managed by `main.ts`. In this sample, the app runs with 
 The Angular component contains an example of Electron and NodeJS native lib import.
 You can disable "Developer Tools" by commenting `win.webContents.openDevTools();` in `main.ts`.
 
-## Included Commands
+## Commands
 
 |Command|Description|
 |--|--|
