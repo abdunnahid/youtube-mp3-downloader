@@ -31,4 +31,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  remove(index: number): void {
+    this.videos.splice(index, 1);
+  }
+
 }

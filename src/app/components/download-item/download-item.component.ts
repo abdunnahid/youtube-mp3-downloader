@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { YoutubeVideoToDownload } from '../add-url/add-url.component';
 import { DownloadService } from '../../core/services/download.service';
 import { isValidYoutubeVideoUrl } from '../../shared/youtube-video-url-validator';
 import { ToastService } from '../../shared/toast';
+import { DownloadProgress, DownLoadFinished } from '../../models';
 
 @Component({
   selector: 'download-item',
@@ -12,7 +13,9 @@ import { ToastService } from '../../shared/toast';
 export class DownloadItemComponent implements OnInit {
 
   @Input() video: YoutubeVideoToDownload;
+  @Output() removed: EventEmitter<void> = new EventEmitter<void>();
   downloading: boolean;
+  downloadedPercentage = 0;
 
   constructor(
     private _toast: ToastService,
@@ -38,7 +41,8 @@ export class DownloadItemComponent implements OnInit {
 
     this._downloader.download(url, directory)
       .subscribe(
-        (progress) => {
+        (progress: DownloadProgress) => {
+          this.downloadedPercentage = progress?.progress?.percentage;
           console.log("HomeComponent -> downlaod -> progress", progress)
         },
         (error) => {
@@ -50,6 +54,10 @@ export class DownloadItemComponent implements OnInit {
           console.log("HomeComponent -> downlaod -> complete")
         }
       )
+  }
+
+  remove(): void {
+    this.removed.emit();
   }
 
 }

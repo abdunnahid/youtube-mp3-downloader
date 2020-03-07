@@ -9,21 +9,29 @@
     </div>
     <div class="right">
       <ng-container *ngIf="!downloading">
-        <button (click)="downlaod(video.url, video.directory)" mat-icon-button color="primary"
-          *ngIf="!video.hasDownloaded; else downloadedTemplate">
-          <mat-icon mat-list-icon>cloud_download</mat-icon>
-        </button>
+
+        <ng-container *ngIf="!video.hasDownloaded; else downloadedTemplate">
+          <button (click)="downlaod(video.url, video.directory)" mat-icon-button color="primary">
+            <mat-icon mat-list-icon>cloud_download</mat-icon>
+          </button>
+          <button (click)="remove()" mat-icon-button color="warn">
+            <mat-icon mat-list-icon>close</mat-icon>
+          </button>
+        </ng-container>
+
         <ng-template #downloadedTemplate>
           <mat-icon mat-list-icon>check_circle_outline</mat-icon>
         </ng-template>
       </ng-container>
+
       <ng-container *ngIf="downloading">
         <div>
+          <span>{{downloadedPercentage.toFixed(0)}} %</span>
           <small-spinner></small-spinner>
         </div>
       </ng-container>
+
     </div>
   </div>
   <mat-divider></mat-divider>
 </div>
-

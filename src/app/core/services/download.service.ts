@@ -3,6 +3,7 @@ import { ElectronService } from './electron/electron.service';
 import * as ffmpegstatic from "ffmpeg-static";
 import * as youtubeMp3Downloader from "youtube-mp3-downloader";
 import { Observable, Observer } from 'rxjs';
+import { DownloadProgress, DownLoadFinished } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class DownloadService {
     }
   }
 
-  public download(url: string, directory: string): Observable<any> {
+  public download(url: string, directory: string): Observable<DownloadProgress | DownLoadFinished> {
 
     if (!this._electron.isElectron) {
       return;
@@ -40,7 +41,7 @@ export class DownloadService {
     //Configure YoutubeMp3Downloader with your settings
     var YD = new this.youtubeMp3Downloader({
       "ffmpegPath": this.pathToFfmpeg,                          // Where is the FFmpeg binary located?
-      "outputPath": directory,     // Where should the downloaded and encoded files be stored?
+      "outputPath": directory,                                  // Where should the downloaded and encoded files be stored?
       "youtubeVideoQuality": "highest",                         // What video quality should be used?
       "queueParallelism": 2,                                    // How many parallel downloads/encodes should be started?
       "progressTimeout": 2000                                   // How long should be the interval of the progress reports
@@ -51,16 +52,16 @@ export class DownloadService {
 
     return Observable.create(
       (observer: Observer<any>) => {
-        YD.on("finished", function (err, data) {
+        YD.on("finished", (err, data: DownLoadFinished) => {
           observer.next(data);
           observer.complete();
         });
 
-        YD.on("error", function (error) {
+        YD.on("error", (error) => {
           observer.error(error);
         });
 
-        YD.on("progress", function (progress) {
+        YD.on("progress", (progress: DownloadProgress) => {
           observer.next(progress);
         });
       }

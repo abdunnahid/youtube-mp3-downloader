@@ -20,7 +20,8 @@ export class AddUrlComponent {
 
   @ViewChild('directoryInput') directoryInput: ElementRef;
 
-  url = new FormControl('https://www.youtube.com/watch?v=hwP7WQkmECE', [Validators.required, ValidateYoutubeVideoUrl]);
+  // url = new FormControl('https://www.youtube.com/watch?v=hwP7WQkmECE', [Validators.required, ValidateYoutubeVideoUrl]);
+  url = new FormControl('', [Validators.required, ValidateYoutubeVideoUrl]);
   pathToSave = new FormControl('', [Validators.required]);
 
   constructor(
