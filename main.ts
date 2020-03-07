@@ -9,15 +9,15 @@ const args = process.argv.slice(1),
 function createWindow(): BrowserWindow {
 
   const screenSize = screen.getPrimaryDisplay().workAreaSize;
-  const appWidth = serve ? screenSize.width - 200 : 400;
-  const appHeight = serve ? screenSize.height - 200 : 600;
+  const appWidth = serve ? screenSize.width - 200 : 600;
+  const appHeight = serve ? screenSize.height - 200 : 400;
 
   // Create the browser window.
   win = new BrowserWindow({
     x: (screenSize.width / 2) - (appWidth / 2),
     y: (screenSize.height / 2) - (appHeight / 2),
-    width: serve ? screenSize.width - 200 : appWidth,
-    height: serve ? screenSize.height - 200 : appHeight,
+    width: appWidth,
+    height: appHeight,
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
